@@ -115,8 +115,8 @@ tables stay in [`README.md`](../README.md).
   command in [`default/inputs.yml`](default/inputs.yml).
 - **Sourcetype**: `macos:perf:macmon`
 - **Index**: `mac_perf`
-- **Captures**: GPU frequency (`gpu_freq_mhz`) and utilization
-  (`gpu_scaled_ratio`), per-rail power in Watts (CPU, GPU, ANE, RAM, GPU RAM,
+- **Captures**: GPU frequency and utilization (derived from macmon's
+  `gpu_usage` tuple), per-rail power in Watts (CPU, GPU, ANE, RAM, GPU RAM,
   combined, system), CPU/GPU temperature, RAM used/total. Published as Cribl
   metrics (`macos.macmon.*`) via the `publish_metrics` function in
   `default/pipelines/main/conf.yml`, alongside the raw event.
@@ -125,8 +125,7 @@ tables stay in [`README.md`](../README.md).
   needs root and samples only every 5 minutes, macmon is sudoless and can
   sample tighter.
 - **Requires**: No special privileges. The `macmon` binary itself (not this
-  pack) — installed by `modules/darwin/macmon-package.nix` in
-  `dryvist/nix-darwin`, a Renovate-managed flake input, not this repo.
+  pack) — installed by `dryvist/nix-darwin` via nixpkgs, not this repo.
 
 ## Crash Reports (`in_macos_crashreports_sys`, `in_macos_crashreports_user`) — File Sources
 

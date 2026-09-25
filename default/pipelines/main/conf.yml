@@ -66,9 +66,11 @@ functions:
     disabled: false
     conf:
       add:
-        # macmon nests temperature/memory under temp{}/memory{}; flatten to
-        # top-level fields so Publish Metrics below references plain names
-        # rather than relying on dotted-path support in eventFieldName.
+        # macmon nests temperature/memory under temp{}/memory{}, and reports
+        # GPU frequency/utilization as a [freq_mhz, ratio] tuple rather than
+        # flat fields; flatten all of it so Publish Metrics below references
+        # plain names rather than relying on dotted-path/index support in
+        # eventFieldName.
         - name: cpu_temp_celsius
           value: "temp?.cpu_temp_avg"
         - name: gpu_temp_celsius
@@ -77,13 +79,17 @@ functions:
           value: "memory?.ram_usage"
         - name: ram_total_bytes
           value: "memory?.ram_total"
+        - name: gpu_freq_mhz
+          value: "gpu_usage?.[0]"
+        - name: gpu_scaled_ratio
+          value: "gpu_usage?.[1]"
   - id: publish_metrics
     filter: "datatype === 'macos-macmon'"
     disabled: false
     conf:
       # One Gauge per macmon field — point-in-time GPU utilization/frequency,
       # per-rail power (CPU/GPU/ANE/RAM/combined), temperatures, and RAM. All
-      # already top-level in macmon's JSON except the four flattened above.
+      # already top-level in macmon's JSON except the six flattened above.
       metrics:
         - eventFieldName: gpu_scaled_ratio
           metricNameExpression: "'macos.macmon.gpu.utilization_ratio'"
