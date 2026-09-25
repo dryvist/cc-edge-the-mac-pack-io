@@ -2,6 +2,18 @@
 
 Release history for this pack. Newest first.
 
+## v0.5.0 (2026-09-25)
+
+- **New `macmon` Exec input** — GPU frequency/utilization and per-rail
+  CPU/GPU/ANE/RAM power on a 60 second cadence, sourced from `macmon pipe -s 1`
+  (sudoless, unlike `powermetrics`, and sampled tighter than its 5 minute
+  interval). Binary path is the nix-darwin system profile
+  (`/run/current-system/sw/bin/macmon`), never a per-user install.
+- **New `macos:perf:macmon` sourcetype**, routed to `index=mac_perf`.
+- **New Publish Metrics stage** in `default/pipelines/main/conf.yml` —
+  `macmon`'s GPU/power/temperature/memory fields also ship as Cribl metrics
+  (`macos.macmon.*`, dimensioned by `host`) alongside the raw event.
+
 ## v0.4.0 (2026-08-23)
 
 Fixes for several macOS telemetry sources that were silently non-functional, broken,

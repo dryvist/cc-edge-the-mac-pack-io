@@ -36,8 +36,8 @@ any other subsystem-of-interest) downstream.
 
 ## Data sources
 
-Six inputs: Apple Unified Logs, system metrics, thermal status, power
-metrics, battery health, wired memory, and crash reports. Per-source
+Seven inputs: Apple Unified Logs, system metrics, thermal status, power
+metrics, battery health, wired memory, macmon, and crash reports. Per-source
 detail — what each one collects, which binaries it calls, and the
 sourcetype it lands under — is in [`docs/SOURCES.md`](docs/SOURCES.md).
 
@@ -49,7 +49,7 @@ Apple Unified Logging (narrowed predicate)                Cribl native
 macOS kernel/system metrics                  ┤
    CPU, memory, disk, network, processes     ┘
 pmset / powermetrics / ioreg / vm_stat       ┐              Cribl Exec
-DiagnosticReports crash files                ┤              + File
+macmon / DiagnosticReports crash files       ┤              + File
                                              ┘              Sources
                        │
                        ▼
@@ -63,7 +63,8 @@ DiagnosticReports crash files                ┤              + File
                    index=os         sourcetype=macos:unified_log | macos:system:thermal
                                     | macos:power:battery | macos:crashreport
                    index=mac_perf   sourcetype=macos:system:metrics | macos:perf:powermetrics
-                                    | macos:perf:wired_memory
+                                    | macos:perf:wired_memory | macos:perf:macmon
+                                    (macmon also published as macos.macmon.* metrics)
 ```
 
 ## Anomaly Detection
@@ -98,6 +99,7 @@ Use these fields in Splunk to alert on what Edge does flag:
 | `macos:power:battery` | `os` | Exec |
 | `macos:perf:powermetrics` | `mac_perf` | Exec |
 | `macos:perf:wired_memory` | `mac_perf` | Exec |
+| `macos:perf:macmon` | `mac_perf` | Exec |
 | `macos:crashreport` | `os` | File |
 
 The `sourcetype` eval in `default/pipelines/main/conf.yml` is an explicit per-datatype map,

@@ -138,6 +138,26 @@ inputs:
       - name: datatype
         value: "'macos-wired-memory'"
 
+  # Exec source — no native 4.18 equivalent. `powermetrics` (macos-power-metrics
+  # above) needs root and only samples every 5 minutes; macmon is sudoless and
+  # reads the same private Apple Silicon power API, so it fills the gap for
+  # per-sample GPU frequency/utilization and per-rail power on a tighter cadence.
+  # `-s 1` takes exactly one sample and exits (Exec re-invokes on every
+  # interval tick, same idiom as macos-power-metrics' `-n 1`). The binary path
+  # is the nix-darwin system profile path (modules/darwin/macmon-package.nix in
+  # dryvist/nix-darwin) — never a per-user install path.
+  macmon:
+    type: exec
+    disabled: false
+    sendToRoutes: true
+    pqEnabled: false
+    streamtags: []
+    command: "/run/current-system/sw/bin/macmon pipe -s 1"
+    interval: 60
+    metadata:
+      - name: datatype
+        value: "'macos-macmon'"
+
   # File sources — root and per-user macOS crash/diagnostic reports.
   # Includes .spin (blocked-thread stacks — the single most diagnostic
   # artifact for a blocked main-thread hang) and .shutdownStall

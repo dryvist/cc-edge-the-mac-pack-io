@@ -1,1 +1,5 @@
-{}
+macmon:
+  id: macmon
+  sampleName: macmon.json
+  description: One macmon pipe -s 1 sample (data/samples/macmon.json) for the macmon Exec source.
+  numEvents: 1
