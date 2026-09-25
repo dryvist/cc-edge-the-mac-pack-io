@@ -52,6 +52,16 @@ routes:
     filter: __inputId=='exec:cc-edge-the-mac-pack-io.macos-power-battery'
     clones: []
     output: default
+  - id: macmon
+    name: macmon (Exec Source)
+    final: true
+    disabled: false
+    pipeline: main
+    description: "macmon — sudoless per-sample GPU frequency/utilization and per-rail CPU/GPU/ANE/RAM power"
+    enableOutputExpression: false
+    filter: __inputId=='exec:cc-edge-the-mac-pack-io.macmon'
+    clones: []
+    output: default
   - id: wired-memory
     name: Wired Memory (Exec Source)
     final: true
