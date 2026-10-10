@@ -19,6 +19,6 @@ permissions:
 
 jobs:
   validate:
-    uses: dryvist/.github/.github/workflows/_cribl-pack-validate.yml@v1
+    uses: dryvist/.github/.github/workflows/_cribl-pack-validate.yml@c4501ea67ce4469a5cc95216c9a989516da2adb8 # v1.10.0
     with:
       pack_type: edge
