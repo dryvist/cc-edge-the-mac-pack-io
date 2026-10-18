@@ -19,6 +19,6 @@ permissions:
 
 jobs:
   validate:
-    uses: JacobPEvans/.github/.github/workflows/_cribl-pack-validate.yml@v1
+    uses: jpe-cribl/.github/.github/workflows/cribl-pack-validate.yml@380014809fe6474c13d171d88bfa877da34ca272 # main
     with:
       pack_type: edge
